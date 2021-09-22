@@ -1,0 +1,12 @@
+<form (ngSubmit)="login($event)">
+    <mat-form-field>
+        <mat-label>Username/Email</mat-label>
+        <input type="text" matInput name="user" [(ngModel)]="user">
+    </mat-form-field>
+
+    <mat-form-field name="password">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput name="password" [(ngModel)]="password">
+    </mat-form-field>
+    <button>Login</button>
+</form>
