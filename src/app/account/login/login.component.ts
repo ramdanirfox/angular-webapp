@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RT_ACCOUNT } from '../account.routes';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AccountService } from '../account.service';
 export class LoginComponent implements OnInit {
   user = '';
   password = '';
+  R_ACCOUNT = new RT_ACCOUNT();
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {

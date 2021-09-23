@@ -1,4 +1,5 @@
 export class RT_ACCOUNT {
     LOGIN = 'login';
-    SIGNUP = 'sigunp'
+    SIGNUP = 'sigunp';
+    EXAMPLE = 'example';
 }

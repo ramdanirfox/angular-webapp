@@ -1,0 +1,13 @@
+<p>example works!</p>
+<div>
+    <button (click)="connectSupabase()">Connect to supabase client</button>
+</div>
+<div>
+    <button (click)="connectFirebaseSSE()">Connect to firebase SSE</button>
+</div>
+<div *ngIf="supabaseView.length">
+    <div>Supabase Outputs :</div>
+    <div *ngFor="let payload of supabaseView">
+        > {{payload}}
+    </div>
+</div>

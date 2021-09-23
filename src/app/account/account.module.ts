@@ -8,13 +8,15 @@ import { AccountComponent } from './account.component';
 import { NotFoundComponent } from '../not-found.component';
 import { MaterialModule } from '../shared/material.module';
 import { AccountService } from './account.service';
+import { ExampleComponent } from './example/example.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     SignupComponent,
-    AccountComponent
+    AccountComponent,
+    ExampleComponent
   ],
   imports: [
     CommonModule,
