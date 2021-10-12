@@ -1,8 +1,8 @@
 let HEADERS = {
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin',
     'Content-Type': 'application/json', //optional
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Max-Age': '8640'
+    'Access-Control-Allow-Methods': '*',
+    'Access-Control-Max-Age': '98640'
 };
   
   //This solves the "No ‘Access-Control-Allow-Origin’ header is present on the requested resource."
@@ -12,6 +12,7 @@ HEADERS['Vary'] = 'Origin';
 
 exports.handler = async function (event, context) {
     try {
+        console.log('Fire detail', event, context);
         if (event.httpMethod === 'OPTIONS') {
           return { statusCode: '204', HEADERS }
         }
@@ -27,8 +28,9 @@ exports.handler = async function (event, context) {
      
         }
         return {
-          statusCode: 401,
-          HEADERS
+            statusCode: 200,
+            body: '{"status":"Generic Access"}',
+            HEADERS
         }
       } catch (e) {
         console.error(e)
