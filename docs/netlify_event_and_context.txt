@@ -1,0 +1,118 @@
+Fire detail 
+EVENT
+{
+  rawUrl: 'https://eliana-digiprint.netlify.app/.netlify/functions/awsabroad?coba=hehe&anu=22',
+  rawQuery: 'coba=hehe&anu=22',
+  path: '/.netlify/functions/awsabroad',
+  httpMethod: 'POST',
+  headers: {
+    accept: '*/*',
+    'accept-encoding': 'br, gzip',
+    'accept-language': 'en-US,en;q=0.9,id;q=0.8',
+    'cache-control': 'no-cache',
+    'client-ip': '100.64.0.195',
+    connection: 'keep-alive',
+    'content-length': '2',
+    'content-type': 'text/plain;charset=UTF-8',
+    forwarded: 'for=180.252.82.226;proto=https',
+    host: 'eliana-digiprint.netlify.app',
+    origin: 'https://www.test-cors.org',
+    pragma: 'no-cache',
+    referer: 'https://www.test-cors.org/',
+    'sec-ch-ua': '"Chromium";v="94", "Google Chrome";v="94", ";Not A Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'cross-site',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36',
+    via: 'http/1.1 Netlify[98c91c92-eea5-4ba9-9447-d32e097c93bc] (Netlify Edge Server)',
+    'x-bb-ab': '0.399887',
+    'x-bb-client-request-uuid': '01FHSY9R4KHZ8PG9B5J055F2GR',
+    'x-bb-ip': '180.252.82.226',
+    'x-bb-loop': '1',
+    'x-cdn-domain': 'www.bitballoon.com',
+    'x-country': 'ID',
+    'x-datadog-parent-id': '2735767681256649359',
+    'x-datadog-sampling-priority': '1',
+    'x-datadog-trace-id': '11485893600598739429',
+    'x-forwarded-for': '180.252.82.226, 100.64.0.195',
+    'x-forwarded-proto': 'https',
+    'x-language': 'en,en;q=0.9,id;q=0.8',
+    'x-nf-cdn-host': 'cdn-reg-aws-sin-10',
+    'x-nf-client-connection-ip': '180.252.82.226',
+    'x-nf-connection-proto': 'https',
+    'x-nf-request-id': '01FHSY9R4KHZ8PG9B5J055F2GR'
+  },
+  multiValueHeaders: {
+    Accept: [ '*/*' ],
+    'Accept-Encoding': [ 'br, gzip' ],
+    'Accept-Language': [ 'en-US,en;q=0.9,id;q=0.8' ],
+    'Cache-Control': [ 'no-cache' ],
+    'Client-Ip': [ '100.64.0.195' ],
+    Connection: [ 'keep-alive' ],
+    'Content-Length': [ '2' ],
+    'Content-Type': [ 'text/plain;charset=UTF-8' ],
+    Forwarded: [ 'for=180.252.82.226;proto=https' ],
+    Origin: [ 'https://www.test-cors.org' ],
+    Pragma: [ 'no-cache' ],
+    Referer: [ 'https://www.test-cors.org/' ],
+    'Sec-Ch-Ua': [
+      '"Chromium";v="94", "Google Chrome";v="94", ";Not A Brand";v="99"'
+    ],
+    'Sec-Ch-Ua-Mobile': [ '?0' ],
+    'Sec-Ch-Ua-Platform': [ '"Windows"' ],
+    'Sec-Fetch-Dest': [ 'empty' ],
+    'Sec-Fetch-Mode': [ 'cors' ],
+    'Sec-Fetch-Site': [ 'cross-site' ],
+    'User-Agent': [
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36'
+    ],
+    Via: [
+      'http/1.1 Netlify[98c91c92-eea5-4ba9-9447-d32e097c93bc] (Netlify Edge Server)'
+    ],
+    'X-Bb-Ab': [ '0.399887' ],
+    'X-Bb-Client-Request-Uuid': [ '01FHSY9R4KHZ8PG9B5J055F2GR' ],
+    'X-Bb-Ip': [ '180.252.82.226' ],
+    'X-Bb-Loop': [ '1' ],
+    'X-Cdn-Domain': [ 'www.bitballoon.com' ],
+    'X-Country': [ 'ID' ],
+    'X-Datadog-Parent-Id': [ '2735767681256649359' ],
+    'X-Datadog-Sampling-Priority': [ '1' ],
+    'X-Datadog-Trace-Id': [ '11485893600598739429' ],
+    'X-Forwarded-For': [ '180.252.82.226, 100.64.0.195' ],
+    'X-Forwarded-Proto': [ 'https' ],
+    'X-Language': [ 'en,en;q=0.9,id;q=0.8' ],
+    'X-Nf-Cdn-Host': [ 'cdn-reg-aws-sin-10' ],
+    'X-Nf-Client-Connection-Ip': [ '180.252.82.226' ],
+    'X-Nf-Connection-Proto': [ 'https' ],
+    'X-Nf-Request-Id': [ '01FHSY9R4KHZ8PG9B5J055F2GR' ],
+    host: [ 'eliana-digiprint.netlify.app' ]
+  },
+  queryStringParameters: { anu: '22', coba: 'hehe' },
+  multiValueQueryStringParameters: { anu: [ '22' ], coba: [ 'hehe' ] },
+  body: '{}',
+  isBase64Encoded: false
+} 
+
+CONTEXT
+{
+  callbackWaitsForEmptyEventLoop: [Getter/Setter],
+  succeed: [Function],
+  fail: [Function],
+  done: [Function],
+  functionVersion: '$LATEST',
+  functionName: '91a3e1aa3e8876bd932b5a5288534fd204912dabf49628c35066cf35e0e604ae',
+  memoryLimitInMB: '1024',
+  logGroupName: '/aws/lambda/91a3e1aa3e8876bd932b5a5288534fd204912dabf49628c35066cf35e0e604ae',
+  logStreamName: '2021/10/12/[$LATEST]9f8ae86596eb4a52b8d0f6d8ec255872',
+  clientContext: {
+    custom: {
+      netlify: 'eyJzaXRlX3VybCI6Imh0dHBzOi8vZWxpYW5hLWRpZ2lwcmludC5uZXRsaWZ5LmFwcCJ9'
+    }
+  },
+  identity: undefined,
+  invokedFunctionArn: 'arn:aws:lambda:us-east-1:551936673993:function:91a3e1aa3e8876bd932b5a5288534fd204912dabf49628c35066cf35e0e604ae',
+  awsRequestId: 'fdb8cfa2-04aa-4b24-bb6f-5b2771ef0094',
+  getRemainingTimeInMillis: [Function: getRemainingTimeInMillis]
+}

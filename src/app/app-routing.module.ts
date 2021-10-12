@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./exxon/exxon.module').then(m => m.ExxonModule)
   },
   {
+    path: R_APP.MAIN,
+    loadChildren: () => import('./main/main.module').then(m => m.MainModule)
+  },
+  {
     path: '**',
     component: NotFoundComponent
   }

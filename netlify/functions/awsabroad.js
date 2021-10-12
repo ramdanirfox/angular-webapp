@@ -22,7 +22,7 @@ exports.handler = async function (event, context) {
     
            return {
              statusCode: 200,
-             body: '{"status":"Bica"}',
+             body: '{"status":"Bica", "tubuh":"' + body + '"}',
              HEADERS
            } 
      

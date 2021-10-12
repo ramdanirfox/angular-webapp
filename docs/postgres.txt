@@ -1,0 +1,19 @@
+POSTGREST DOC
+
+Add this header for every requests :
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyMjkxOTI3LCJleHAiOjE5NDc4Njc5Mjd9.Q1bwnxiOT3dTgQ73zNdf1nWDgsXCZiDqZ7kiZPmQBuM
+apiKey : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjMyMjkxOTI3LCJleHAiOjE5NDc4Njc5Mjd9.Q1bwnxiOT3dTgQ73zNdf1nWDgsXCZiDqZ7kiZPmQBuM
+Content-Type : application/json
+
+1. INTROSPECTION
+GET
+https://jhqrimueimbqxgowplav.supabase.co/rest/v1/
+
+2. GET TABLE 'users' DATAS
+GET 
+https://jhqrimueimbqxgowplav.supabase.co/rest/v1/users
+
+3. INSERT A ROW TO 'users' TABLE
+POST
+https://jhqrimueimbqxgowplav.supabase.co/rest/v1/users
+{"displayname":"Ramdan","username":"ramdani","email":"rfox@mail.com","password":"rfox","description":"{}","config":"{}","group":"example"}

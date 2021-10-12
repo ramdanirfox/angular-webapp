@@ -1,0 +1,7 @@
+wss://jhqrimueimbqxgowplav.supabase.co/realtime/v1/websocket?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjI5MTkyNywiZXhwIjoxOTQ3ODY3OTI3fQ.eLNmjItUHvY4dp_Zt_otakkKr2njaCcY99gjufIeF2U&vsn=1.0.0
+
+{"topic":"realtime:public","event":"phx_join","payload":{"user_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjI5MTkyNywiZXhwIjoxOTQ3ODY3OTI3fQ.eLNmjItUHvY4dp_Zt_otakkKr2njaCcY99gjufIeF2U"},"ref":"1"}
+
+{"topic":"phoenix","event":"heartbeat","payload":{},"ref":"2"}
+
+ref is ever increasing numstring (sent every 30 sec)

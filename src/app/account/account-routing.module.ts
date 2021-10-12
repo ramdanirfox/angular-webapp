@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from '../not-found.component';
+import { AccountComponent } from './account.component';
 import { RT_ACCOUNT } from './account.routes';
 import { ExampleComponent } from './example/example.component';
 import { LoginComponent } from './login/login.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: AccountComponent,
     children: [
       {
         path: R_ACCOUNT.LOGIN,
