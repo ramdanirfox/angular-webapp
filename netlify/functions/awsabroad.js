@@ -1,4 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+// import { createClient } from '@supabase/supabase-js';
+const supa = require('@supabase/supabase-js');
 const public_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjI5MTkyNywiZXhwIjoxOTQ3ODY3OTI3fQ.eLNmjItUHvY4dp_Zt_otakkKr2njaCcY99gjufIeF2U';
 const supabaseUrl = 'https://jhqrimueimbqxgowplav.supabase.co';
 
@@ -22,8 +23,8 @@ exports.handler = async function (event, context) {
         }
       if (event.httpMethod === 'POST') { 
           const body = JSON.parse(event.body);
-          if (body.mode && mode == 'supainsert') {
-            const supabase = createClient(supabaseUrl, public_key);
+          if (body.mode && body.mode == 'supainsert') {
+            const supabase = supa.createClient(supabaseUrl, public_key);
             const { data, error } = await supabase
               .from('notes')
               .insert([
@@ -35,6 +36,24 @@ exports.handler = async function (event, context) {
                 HEADERS
               } 
           }
+          else if (body.mode && body.mode == 'supastatus') {
+            const supabase = supa.createClient(supabaseUrl, public_key);
+            const { data, error } = await supabase
+              .from('ruang_terpakai')
+              .select('*');
+            console.log('Supares', data);
+              return {
+                statusCode: 200,
+                body: JSON.stringify({
+                  status: "SupaStatus",
+                  body: body,
+                  data: data,
+                  error: error
+                }),
+                HEADERS
+              } 
+          }
+        else { }
 
             
             //Your code goes here
