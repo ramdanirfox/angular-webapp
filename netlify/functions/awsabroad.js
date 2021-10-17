@@ -47,6 +47,25 @@ exports.handler = async function (event, context) {
                 body: JSON.stringify({
                   status: "SupaStatus",
                   body: body,
+                  header: HEADERS,
+                  data: data,
+                  error: error
+                }),
+                HEADERS
+              } 
+          }
+          else if (body.mode && body.mode == 'supastorage') {
+            const supabase = supa.createClient(supabaseUrl, public_key);
+            const { data, error } = await supabase
+              .from('info_penyimpanan')
+              .select('*');
+            console.log('Supastore', data);
+              return {
+                statusCode: 200,
+                body: JSON.stringify({
+                  status: "SupaStatusStorage",
+                  body: body,
+                  header: HEADERS,
                   data: data,
                   error: error
                 }),

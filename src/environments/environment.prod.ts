@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://127.0.0.1:3000/api',
+  apiBaseUrl: 'https://eliana-digiprint.netlify.app',
   secondaryBaseUrl: 'http://127.0.0.1:3000/api'
 };
