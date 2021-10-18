@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { MainService } from 'src/app/main/main.service';
 import { LogService } from 'src/app/shared/services/log.service';
 import { SupabaseService } from 'src/app/shared/services/supabase.service';
 
@@ -16,7 +17,8 @@ export class ExampleComponent implements OnInit {
 
   constructor(
     private supa: SupabaseService,
-    private console: LogService
+    private console: LogService,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
@@ -52,17 +54,44 @@ export class ExampleComponent implements OnInit {
     // this.supabase = createClient(supabaseUrl, public_key);
     // console.log('Client : ', this.supabase);
 
+    // const mySubscription = this.supa.getClient()
+    //   .from('*')
+    //   .on('*', payload => {
+    //     this.console.log('Change received!', payload);
+    //     this.supabaseView.push(payload);
+    //   })
+    //   .subscribe((x: any) => {
+    //     this.console.log('Change subscribe received!', x);
+    //   });
+    
     const mySubscription = this.supa.getClient()
-    .from('*')
-    .on('*', payload => {
-      this.console.log('Change received!', payload);
-      this.supabaseView.push(payload);
-    })
-    .subscribe()
+    .from('realtime_hooks:app_id=eq.digiprint')
+    .on('INSERT', payload => {
+        this.console.log('Change received!', payload);
+        this.supabaseView.push(payload);
+      })
+      .subscribe((x: any) => {
+        this.console.log('Change subscribe received!', x);
+      });
   }
 
   connectFirebaseSSE() {
     
+  }
+
+  broadcast() {
+    this.mainService.genericFn({
+      mode: 'supabroadcast',
+      data: {
+        json_data: JSON.stringify({ kedik: 'adalah', teman: 'setia' }),
+        expiry_sec: 1,
+        app_id: 'digiprint',
+        account_id: 'anon',
+        group_id: 'anon_group'
+      }
+    }).subscribe(x => {
+      this.console.log('Event broadcasted!', x);
+    });
   }
 
 }

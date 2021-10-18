@@ -1,5 +1,6 @@
 // import { createClient } from '@supabase/supabase-js';
 const supa = require('@supabase/supabase-js');
+const route = require('./modules/route');
 const public_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjI5MTkyNywiZXhwIjoxOTQ3ODY3OTI3fQ.eLNmjItUHvY4dp_Zt_otakkKr2njaCcY99gjufIeF2U';
 const supabaseUrl = 'https://jhqrimueimbqxgowplav.supabase.co';
 
@@ -26,7 +27,7 @@ exports.handler = async function (event, context) {
           if (body.mode && body.mode == 'supainsert') {
             const supabase = supa.createClient(supabaseUrl, public_key);
             const { data, error } = await supabase
-              .from('notes')
+              .from('realtime_hooks')
               .insert([
                 body.data
               ]);
@@ -72,7 +73,9 @@ exports.handler = async function (event, context) {
                 HEADERS
               } 
           }
-        else { }
+          else {
+            return route.assign(event, context);
+         }
 
             
             //Your code goes here

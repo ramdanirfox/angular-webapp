@@ -12,6 +12,9 @@
     <input type="file" (change)="fileChanged($event)">
     <button mat-raised-button (click)="uploadTest()">UpFile</button>
 </div>
+<div>
+    <button mat-raised-button (click)="broadcast()">Broadcast</button>
+</div>
 <div *ngIf="supabaseView.length">
     <div>Supabase Outputs :</div>
     <div *ngFor="let payload of supabaseView">
