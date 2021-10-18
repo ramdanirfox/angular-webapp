@@ -64,26 +64,30 @@ export class ExampleComponent implements OnInit {
     //     this.console.log('Change subscribe received!', x);
     //   });
     
-    const mySubscription = this.supa.getClient()
-    .from('realtime_hooks:app_id=eq.digiprint')
-    .on('INSERT', payload => {
-        this.console.log('Change received!', payload);
-        this.supabaseView.push(payload);
-      })
-      .subscribe((x: any) => {
-        this.console.log('Change subscribe received!', x);
-      });
+    // const mySubscription = this.supa.getClient()
+    // .from('realtime_hooks:app_id=eq.digiprint')
+    // .on('INSERT', payload => {
+    //     this.console.log('Change received!', payload);
+    //     this.supabaseView.push(payload);
+    //   })
+    //   .subscribe();
+    
+    this.supa.connectStream('digiprint');
+    this.supa.listen('digiprint').subscribe(x => {
+      this.console.log('Change simple received!', x);
+      this.supabaseView.push(JSON.parse(x.new.json_data).text);
+    });
   }
 
   connectFirebaseSSE() {
     
   }
 
-  broadcast() {
+  broadcast(text: string) {
     this.mainService.genericFn({
       mode: 'supabroadcast',
       data: {
-        json_data: JSON.stringify({ kedik: 'adalah', teman: 'setia' }),
+        json_data: JSON.stringify({ text: text }),
         expiry_sec: 1,
         app_id: 'digiprint',
         account_id: 'anon',

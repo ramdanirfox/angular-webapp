@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { createClient, RealtimeSubscription, SupabaseClient } from '@supabase/supabase-js'
+import { SupabaseRealtimeClient } from '@supabase/supabase-js/dist/main/lib/SupabaseRealtimeClient';
+import { Subject } from 'rxjs';
 import { SupabaseBroadcastOptions } from '../model/supabase.model';
 
 @Injectable({
@@ -7,6 +9,8 @@ import { SupabaseBroadcastOptions } from '../model/supabase.model';
 })
 export class SupabaseService {
   supabase: SupabaseClient | undefined;
+  supabaseSubs: {[key: string]: RealtimeSubscription} = {};
+  supabaseSubjects: {[key: string]: Subject<any>} = {};
 
 
   constructor() {
@@ -29,13 +33,24 @@ export class SupabaseService {
     }
   }
 
-  listen(options?:  any) {
-    this.getClient()
-    .from('*')
-    .on('*', payload => {
-      // this.console.log('Change received!', payload);
-      // this.supabaseView.push(payload);
-    })
+  connectStream(channel: string, options?: any, streamId?: string) {
+    if (!streamId) { streamId = channel; }
+    if (this.supabaseSubs[streamId]) { this.getClient().removeSubscription(this.supabaseSubs[streamId]) }
+    // if (this.supabaseSubjects[streamId]) { this.getClient().removeSubscription(this.supabaseSubs[streamId]) }
+    this.supabaseSubjects[streamId] = new Subject();
+    const mySubscription = this.getClient()
+      .from(`realtime_hooks:app_id=eq.${channel}`)
+      .on('INSERT', payload => {
+        this.supabaseSubjects[(streamId as string)].next(payload);
+        // this.console.log('Change received!', payload);
+        // this.supabaseView.push(payload);
+      }).subscribe();
+    this.supabaseSubs[streamId] = mySubscription;
+    return mySubscription;
+  }
+
+  listen(channel: string) {
+    return this.supabaseSubjects[channel].asObservable();
   }
 
   broadcast(data: any, options = new SupabaseBroadcastOptions()) {
