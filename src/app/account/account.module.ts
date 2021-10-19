@@ -9,6 +9,7 @@ import { NotFoundComponent } from '../not-found.component';
 import { MaterialModule } from '../shared/material.module';
 import { AccountService } from './account.service';
 import { ExampleComponent } from './example/example.component';
+import { StreamComponent } from './stream/stream.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ExampleComponent } from './example/example.component';
     LoginComponent,
     SignupComponent,
     AccountComponent,
-    ExampleComponent
+    ExampleComponent,
+    StreamComponent
   ],
   imports: [
     CommonModule,

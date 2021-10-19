@@ -79,6 +79,18 @@ export class ExampleComponent implements OnInit {
     });
   }
 
+  connectSupabaseWS() {
+    this.supa.connectStreamWS('digiprint');
+    this.supa.listenWS('digiprint').subscribe(x => {
+      this.console.log('Change WS received!', x);
+      this.supabaseView.push(JSON.parse(x.new.json_data).text);
+    });
+  }
+
+  disconnectSupabaseWs() {
+    this.supa.disconnectStreamWS('digiprint');
+  }
+
   connectFirebaseSSE() {
     
   }

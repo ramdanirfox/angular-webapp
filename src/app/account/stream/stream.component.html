@@ -1,0 +1,41 @@
+<p>stream works!</p>
+<div>Streamer Config :</div>
+<div>
+    <mat-form-field>
+        <mat-label>Pilih penyiar</mat-label>
+        <mat-select [(ngModel)]="siarSebagai" (ngModelChange)="startBroadCast($event)">
+            <mat-option value="kijang_1">
+                Kijang 1
+            </mat-option>
+            <mat-option value="kijang_2">
+                Kijang 2
+            </mat-option>
+            <mat-option value="">
+                Kabyur
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <!-- <button (click)="startRecordAudio(audioElm, srcElm)">Start record audio</button>
+    <button (click)="stopRecordAudio()">Stop record audio</button> -->
+    <span *ngIf="packetSent">Packet sent: {{packetSent}}</span>
+</div>
+<div>Listener config :</div>
+<div>
+    <mat-form-field>
+        <mat-label>Pilih penyiar</mat-label>
+        <mat-select [(ngModel)]="penyiarTerpilih" (ngModelChange)="startListen($event, audioElm, srcElm)">
+            <mat-option value="kijang_1">
+                Kijang 1
+            </mat-option>
+            <mat-option value="kijang_2">
+                Kijang 2
+            </mat-option>
+            <mat-option value="">
+                Udahan
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <audio controls #audioElm>
+        <source #srcElm type="audio/ogg">
+    </audio>
+</div>
