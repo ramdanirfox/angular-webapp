@@ -12,8 +12,13 @@ declare var MediaRecorder: any;
 })
 export class StreamComponent implements OnInit {
   audioAvail: any = '';
+  imageAvail: any = '';
+  textAvail: any = '';
+  textAvailBefore: any = '';
+  receivedText = '';
   packetSent = 0;
   isRecording = true;
+  isVideoOnline = false;
   penyiarTerpilih = '';
   siarSebagai = '';
   audioStreamSub: any;
@@ -33,8 +38,9 @@ export class StreamComponent implements OnInit {
 
     const onsuccess = (stream: any) => {
     recorder = new MediaRecorder(stream, {
-        type: 'audio/ogg; codecs=opus'
-    } as any);
+      type: 'audio/ogg; codecs=opus',
+      audioBitsPerSecond: 32000 // min 6000
+    });
 
     recorder.start(); // Starting the record
 
@@ -51,7 +57,11 @@ export class StreamComponent implements OnInit {
           this.mainService.genericFn({
             mode: 'supabroadcast',
             data: {
-              json_data: JSON.stringify({ audio: reader.result }),
+              json_data: JSON.stringify({
+                audio: reader.result,
+                image: this.imageAvail,
+                text: this.textAvail == this.textAvailBefore ? '' : this.textAvail
+              }),
               expiry_sec: 1,
               app_id: 'digiprint_audio-'+broadcastAs,
               account_id: 'anon',
@@ -65,6 +75,7 @@ export class StreamComponent implements OnInit {
         }
 
         reader.readAsDataURL(e.data);
+        // reader.readAsText(e.data, 'UTF-16'); // default to UTF-8 bad IDEA!
         }
     }
     (navigator as any).getUserMedia = (
@@ -75,7 +86,12 @@ export class StreamComponent implements OnInit {
     );
 
     (navigator as any).getUserMedia({
-        audio: true
+      audio: {
+        channelCount: 1,
+        echoCancellation: false,
+        noiseSuppression: false,
+        autoGainControl: false
+        }
     }, onsuccess, (e: any) => {
         console.log(e);
     });
@@ -93,16 +109,19 @@ export class StreamComponent implements OnInit {
     recursiveCord();
   }
 
-  startListen(broadcaster: any, audioElm: any, srcElm: any) {
+  startListen(broadcaster: any, audioElm: any, srcElm: any, imageElm: any) {
     if (broadcaster) {
       this.console.log('Dengerin', broadcaster);
       this.supa.disconnectStreamWS('digiprint_audio-' + broadcaster);
       this.supa.connectStreamWS('digiprint_audio-' + broadcaster);
       if (this.audioStreamSub) { this.audioStreamSub.unsubscribe(); }
       this.audioStreamSub = this.supa.listenWS('digiprint_audio-' + broadcaster).subscribe(x => {
-          srcElm.src = JSON.parse(x.new.json_data).audio;
+          const data = JSON.parse(x.new.json_data);
+          srcElm.src = data.audio;
           audioElm.load();
           audioElm.play();
+          imageElm.src = data.image;
+          if (data.text) { this.receivedText = data.text }
       });
     } 
     else {
@@ -124,6 +143,53 @@ export class StreamComponent implements OnInit {
 
   stopRecordAudio() {
     this.isRecording = false;
+  }
+
+  startRecordVideo(videoElm: any, canvasElm: any, imgElm: any) {
+    const video = videoElm;
+    const canvas = canvasElm;
+    const photo = imgElm;
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then((stream) => {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch((err) => {
+        console.log("An error occurred: " + err);
+    });
+  }
+
+  videoPlayable(video: any, canvas: any, photo: any) {
+    this.console.log('the video is playable!');
+    if (!this.isVideoOnline) {
+      const width = 200;
+      const height = video.videoHeight / (video.videoWidth/width);
+      video.setAttribute('width', width);
+      video.setAttribute('height', height);
+      canvas.setAttribute('width', width);
+      canvas.setAttribute('height', height);
+      this.isVideoOnline = true;
+      setInterval(() => { this.takepicture(video, canvas, photo) }, 3000);
+    }
+  }
+
+  takepicture(video: any, canvas: any, photo: any) {
+      var context = canvas.getContext('2d');
+    // if (width && height) {
+      const width = 200;
+      canvas.width = 200;
+      const height = video.videoHeight / (video.videoWidth / width);
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+
+    var data = canvas.toDataURL('image/jpeg');
+    this.console.log('Data img', data.length);
+    photo.setAttribute('src', data);
+    this.imageAvail = data;
+    // } else {
+    //   clearphoto();
+    // }
   }
 
 }

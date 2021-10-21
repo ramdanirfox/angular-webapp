@@ -73,10 +73,18 @@ export class SupabaseService {
           "event": "heartbeat",
           "payload": {},
           "ref": (counter++).toString()
-        })
-      socket.send(heartMessage);
-      if (this.supabaseSubsWS[(streamId as string)].heartbeatTimerId) {
-        setTimeout(() => heartBeatFn(), 30000);
+        });
+      const connected = [2, 3].indexOf(socket.readyState) == -1;
+      if (connected) {
+        if (this.supabaseSubsWS[(streamId as string)].heartbeatTimerId) {
+          socket.send(heartMessage);
+          setTimeout(() => heartBeatFn(), 30000);
+        }
+      }
+      else {
+        // reconnect here...
+        // console.log('WSS trying to reconnect', socket);
+        this.connectStreamWS(channel, options, streamId);
       }
     }
     socket.addEventListener('open', (event) => {
@@ -89,7 +97,7 @@ export class SupabaseService {
       });
       socket.send(initMessage);
       this.supabaseSubsWS[(streamId as string)].heartbeatTimerId = 1;
-      heartBeatFn();
+      setTimeout(() => heartBeatFn(), 1000);
     });
 
     socket.addEventListener('message', (event) => {

@@ -1,5 +1,6 @@
 <p>stream works!</p>
 <div>Streamer Config :</div>
+<div>Audio Packet Config :</div>
 <div>
     <mat-form-field>
         <mat-label>Pilih penyiar</mat-label>
@@ -19,11 +20,30 @@
     <button (click)="stopRecordAudio()">Stop record audio</button> -->
     <span *ngIf="packetSent">Packet sent: {{packetSent}}</span>
 </div>
+<div>Image Still Config :</div>
+<div>
+    <div class="camera">
+        <video #videoElm (canplay)="videoPlayable(videoElm, canvasElm, imgElm)" id="video">Video stream not available.</video>
+        <button id="startbutton" (click)="startRecordVideo(videoElm, canvasElm, imgElm)">Initialize image stream</button>
+    </div>
+    <canvas id="canvas" #canvasElm>
+    </canvas>
+    <div class="output">
+      <img id="photo" alt="The screen capture will appear in this box." #imgElm>
+    </div>
+</div>
+<div>Text Broadcasting :</div>
+<div>
+    <mat-form-field>
+        <textarea matInput [(ngModel)]="textAvail">
+        </textarea>
+    </mat-form-field>
+</div>
 <div>Listener config :</div>
 <div>
     <mat-form-field>
         <mat-label>Pilih penyiar</mat-label>
-        <mat-select [(ngModel)]="penyiarTerpilih" (ngModelChange)="startListen($event, audioElm, srcElm)">
+        <mat-select [(ngModel)]="penyiarTerpilih" (ngModelChange)="startListen($event, audioElm, srcElm, imgReceiver)">
             <mat-option value="kijang_1">
                 Kijang 1
             </mat-option>
@@ -38,4 +58,10 @@
     <audio controls #audioElm>
         <source #srcElm type="audio/ogg">
     </audio>
+    <div class="output">
+        <img id="photo" alt="The screen capture will appear in this box." #imgReceiver>
+    </div>
+    <div style="height: 30px;">
+        <span *ngIf="receivedText">{{receivedText}}</span>
+    </div>
 </div>
