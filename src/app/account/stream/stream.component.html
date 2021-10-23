@@ -58,6 +58,7 @@
     <audio controls #audioElm>
         <source #srcElm type="audio/ogg">
     </audio>
+    <button type="button" (click)="manualPlay(audioElm, srcElm)">Manual Load & Play</button>
     <div class="output">
         <img id="photo" alt="The screen capture will appear in this box." #imgReceiver>
     </div>

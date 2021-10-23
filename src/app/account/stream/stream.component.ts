@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { MainService } from 'src/app/main/main.service';
 import { LogService } from 'src/app/shared/services/log.service';
 import { SupabaseService } from 'src/app/shared/services/supabase.service';
+import * as blobUtil from 'blob-util';
 declare var MediaRecorder: any;
 @Component({
   selector: 'app-stream',
@@ -11,6 +12,7 @@ declare var MediaRecorder: any;
   styleUrls: ['./stream.component.scss']
 })
 export class StreamComponent implements OnInit {
+  audioArrAvail: any = [];
   audioAvail: any = '';
   imageAvail: any = '';
   textAvail: any = '';
@@ -49,33 +51,31 @@ export class StreamComponent implements OnInit {
         // console.log('sebelum b64', e);
         let reader = new FileReader()
         reader.onloadend = () => {
-          // this.console.log('datanyaaa', reader.result);
-          this.audioAvail = this.domSanitizer.bypassSecurityTrustResourceUrl((reader.result as any));
-          // srcElm.src = reader.result;
-          // audioElm.load();
-          // audioElm.play();
-          this.mainService.genericFn({
-            mode: 'supabroadcast',
-            data: {
-              json_data: JSON.stringify({
-                audio: reader.result,
-                image: this.imageAvail,
-                text: this.textAvail == this.textAvailBefore ? '' : this.textAvail
-              }),
-              expiry_sec: 1,
-              app_id: 'digiprint_audio-'+broadcastAs,
-              account_id: 'anon',
-              group_id: 'anon_group'
-            }
-          }).subscribe(x => {
-            this.console.log('Event broadcasted!', x);
-            this.packetSent++;
-          });
+          this.console.log('datanyaaa', reader.result?.toString().substring(0, 20));
+          this.audioArrAvail.push(reader.result);
+          // this.audioAvail = this.domSanitizer.bypassSecurityTrustResourceUrl((reader.result as any));
+          // this.mainService.genericFn({
+          //   mode: 'supabroadcast',
+          //   data: {
+          //     json_data: JSON.stringify({
+          //       audio: reader.result,
+          //       image: this.imageAvail,
+          //       text: this.textAvail == this.textAvailBefore ? '' : this.textAvail
+          //     }),
+          //     expiry_sec: 1,
+          //     app_id: 'digiprint_audio-'+broadcastAs,
+          //     account_id: 'anon',
+          //     group_id: 'anon_group'
+          //   }
+          // }).subscribe(x => {
+          //   this.console.log('Event broadcasted!', x);
+          //   this.packetSent++;
+          // });
             // You can upload the base64 to server here.
         }
 
         reader.readAsDataURL(e.data);
-        // reader.readAsText(e.data, 'UTF-16'); // default to UTF-8 bad IDEA!
+        // reader.readAsText(e.data, 'UTF-8'); // default to UTF-8 bad IDEA!
         }
     }
     (navigator as any).getUserMedia = (
@@ -100,8 +100,8 @@ export class StreamComponent implements OnInit {
       setTimeout(() => {
         recorder.stop();
         if (this.isRecording) {
-          recorder.start();
-          recursiveCord(); // Stopping the recorder after 3 seconds
+          recorder.start(1000);
+          // recursiveCord(); // Stopping the recorder after 3 seconds
         }
       }, 3000);
     }
@@ -191,5 +191,92 @@ export class StreamComponent implements OnInit {
     //   clearphoto();
     // }
   }
+
+  manualPlay(audioElm: any, srcElm: any) {
+    // const mergedData = this.audioArrAvail.map((x: string, i: number) => i ? x.split(',')[1] : x);
+    const mergedData = this.audioArrAvail;
+    const splitData = this.audioArrAvail[0].split(';base64,')
+    const blobDatas = this.base64toBlob(splitData[1], splitData[0].split(':')[1], 512);
+    const blobDataV2 = mergedData.map((x: string) => blobUtil.dataURLToBlob(x));
+    this.console.log('Datas', this.audioArrAvail);
+    this.console.log('Merged', mergedData);
+    this.console.log('Blobs', blobDatas);
+    this.console.log('BlobInstantzz', blobDataV2);
+    const mergedBlob = new Blob(blobDataV2, { type: 'audio/webm' });
+    this.console.log('BlobMerged', mergedBlob);
+    // srcElm.src = mergedData.join('');
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.console.log('Load Finish', (reader.result as string).length);
+      srcElm.src = reader.result;
+      audioElm.load();
+    }
+    reader.readAsDataURL(mergedBlob);
+    // audioElm.play();
+  }
+
+  base64toBlob(base64Data: string, contentType: any, sliceSize: any) {
+
+    var byteCharacters: any,
+        byteArray,
+        byteNumbers,
+        blobData,
+        blob;
+
+    contentType = contentType || '';
+
+    byteCharacters = atob(base64Data);
+
+    // Get BLOB data sliced or not
+    blobData = sliceSize ? getBlobDataSliced() : getBlobDataAtOnce();
+
+    blob = new Blob(blobData, { type: contentType });
+
+    return blob;
+
+
+    /*
+     * Get BLOB data in one slice.
+     * => Fast in Internet Explorer on new Blob(...)
+     */
+    function getBlobDataAtOnce() {
+        byteNumbers = new Array(byteCharacters.length);
+
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+
+        byteArray = new Uint8Array(byteNumbers);
+
+        return [byteArray];
+    }
+
+    /*
+     * Get BLOB data in multiple slices.
+     * => Slow in Internet Explorer on new Blob(...)
+     */
+    function getBlobDataSliced() {
+
+        var slice,
+            byteArrays = [];
+
+        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            byteNumbers = new Array(slice.length);
+
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            byteArray = new Uint8Array(byteNumbers);
+
+            // Add slice
+            byteArrays.push(byteArray);
+        }
+
+        return byteArrays;
+    }
+}
 
 }
