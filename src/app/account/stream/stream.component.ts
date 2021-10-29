@@ -18,12 +18,16 @@ export class StreamComponent implements OnInit {
   textAvail: any = '';
   textAvailBefore: any = '';
   receivedText = '';
+  receivedAudios: any[] = [];
+  receivedAudioBlobs: any[] = [];
+  mergedAudioBlob: any;
   packetSent = 0;
   isRecording = true;
   isVideoOnline = false;
   penyiarTerpilih = '';
   siarSebagai = '';
   audioStreamSub: any;
+  continuousData: boolean = true;
   constructor(
     private domSanitizer: DomSanitizer,
     private supa: SupabaseService,
@@ -37,7 +41,7 @@ export class StreamComponent implements OnInit {
   startRecordAudio(broadcastAs: any) {
     this.isRecording = true;
     let recorder: any = null;
-
+    let sentContinuousBefore: boolean = this.continuousData; 
     const onsuccess = (stream: any) => {
     recorder = new MediaRecorder(stream, {
       type: 'audio/ogg; codecs=opus',
@@ -53,24 +57,33 @@ export class StreamComponent implements OnInit {
         reader.onloadend = () => {
           this.console.log('datanyaaa', reader.result?.toString().substring(0, 20));
           this.audioArrAvail.push(reader.result);
-          // this.audioAvail = this.domSanitizer.bypassSecurityTrustResourceUrl((reader.result as any));
-          // this.mainService.genericFn({
-          //   mode: 'supabroadcast',
-          //   data: {
-          //     json_data: JSON.stringify({
-          //       audio: reader.result,
-          //       image: this.imageAvail,
-          //       text: this.textAvail == this.textAvailBefore ? '' : this.textAvail
-          //     }),
-          //     expiry_sec: 1,
-          //     app_id: 'digiprint_audio-'+broadcastAs,
-          //     account_id: 'anon',
-          //     group_id: 'anon_group'
-          //   }
-          // }).subscribe(x => {
-          //   this.console.log('Event broadcasted!', x);
-          //   this.packetSent++;
-          // });
+          this.audioAvail = this.domSanitizer.bypassSecurityTrustResourceUrl((reader.result as any));
+          this.mainService.genericFn({
+            mode: 'supabroadcast',
+            data: {
+              json_data: JSON.stringify({
+                audio: reader.result,
+                image: this.imageAvail,
+                text: this.textAvail == this.textAvailBefore ? '' : this.textAvail,
+                c: sentContinuousBefore ? 1 : 0,
+                i: this.packetSent
+              }),
+              expiry_sec: 1,
+              app_id: 'digiprint_audio-'+broadcastAs,
+              account_id: 'anon',
+              group_id: 'anon_group'
+            }
+          }).subscribe(x => {
+            this.console.log('Event broadcasted!', x);
+            this.packetSent++;
+          });
+
+          if (!this.isRecording) { recorder.stop(); }
+          if (sentContinuousBefore !== this.continuousData) {
+            this.packetSent = 0;
+            // recursiveCord();
+          }
+          sentContinuousBefore = this.continuousData;
             // You can upload the base64 to server here.
         }
 
@@ -100,7 +113,13 @@ export class StreamComponent implements OnInit {
       setTimeout(() => {
         recorder.stop();
         if (this.isRecording) {
-          recorder.start(1000);
+          if (this.continuousData) {
+            recorder.start(3000);
+          }
+          else {
+            recursiveCord();
+            recorder.start();
+          }
           // recursiveCord(); // Stopping the recorder after 3 seconds
         }
       }, 3000);
@@ -112,14 +131,43 @@ export class StreamComponent implements OnInit {
   startListen(broadcaster: any, audioElm: any, srcElm: any, imageElm: any) {
     if (broadcaster) {
       this.console.log('Dengerin', broadcaster);
+      let cBefore: number = this.continuousData ? 1 : 0;
       this.supa.disconnectStreamWS('digiprint_audio-' + broadcaster);
       this.supa.connectStreamWS('digiprint_audio-' + broadcaster);
       if (this.audioStreamSub) { this.audioStreamSub.unsubscribe(); }
       this.audioStreamSub = this.supa.listenWS('digiprint_audio-' + broadcaster).subscribe(x => {
+          // check wether reset chunk?
+          // if (audioElm.src) { URL.revokeObjectURL(audioElm.src); }
           const data = JSON.parse(x.new.json_data);
-          srcElm.src = data.audio;
-          audioElm.load();
-          audioElm.play();
+          // console.log('recvData', data);
+          console.log('pkSent', data.i);
+          console.log('isCt', data.c);
+          if (data.c !== cBefore) {
+            this.receivedAudios = [];
+            this.receivedAudioBlobs = [];
+          }
+
+          if (data.c) {
+            const datatype = data.audio.split(';base64,')[0].split(':')[1];
+            // srcElm.src = data.audio;
+            this.receivedAudios.push(data.audio);
+            this.receivedAudioBlobs.push(blobUtil.dataURLToBlob(data.audio));
+            this.mergedAudioBlob = new Blob(this.receivedAudioBlobs, { type: datatype });
+            console.log('BLOBLEN', this.receivedAudios.length);
+            const lastPos = audioElm.currentTime;
+            srcElm.src = URL.createObjectURL(this.mergedAudioBlob);
+            audioElm.load();
+            audioElm.currentTime = lastPos;
+            audioElm.play();
+          }
+          else {
+            if (this.mergedAudioBlob) { URL.revokeObjectURL(this.mergedAudioBlob); this.mergedAudioBlob = undefined; }
+            srcElm.src = data.audio;
+            audioElm.load();
+            audioElm.play();
+          }
+
+          cBefore = data.c;
           imageElm.src = data.image;
           if (data.text) { this.receivedText = data.text }
       });
@@ -205,13 +253,15 @@ export class StreamComponent implements OnInit {
     const mergedBlob = new Blob(blobDataV2, { type: 'audio/webm' });
     this.console.log('BlobMerged', mergedBlob);
     // srcElm.src = mergedData.join('');
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      this.console.log('Load Finish', (reader.result as string).length);
-      srcElm.src = reader.result;
-      audioElm.load();
-    }
-    reader.readAsDataURL(mergedBlob);
+    // let reader = new FileReader();
+    // reader.onloadend = () => {
+    //   this.console.log('Load Finish', (reader.result as string).length);
+    //   srcElm.src = reader.result;
+    //   audioElm.load();
+    // }
+    // reader.readAsDataURL(mergedBlob);
+    audioElm.src = URL.createObjectURL(mergedBlob);
+    audioElm.load();
     // audioElm.play();
   }
 

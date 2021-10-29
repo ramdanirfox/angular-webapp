@@ -18,7 +18,7 @@
     </mat-form-field>
     <!-- <button (click)="startRecordAudio(audioElm, srcElm)">Start record audio</button>
     <button (click)="stopRecordAudio()">Stop record audio</button> -->
-    <span *ngIf="packetSent">Packet sent: {{packetSent}}</span>
+    <span *ngIf="packetSent">Packet sent: {{packetSent}}</span><mat-checkbox [(ngModel)]="continuousData">Continuous Data</mat-checkbox>
 </div>
 <div>Image Still Config :</div>
 <div>

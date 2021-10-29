@@ -32,6 +32,11 @@ const routes: Routes = [
         path: R_ACCOUNT.EXAMPLE,
         component: ExampleComponent,
         data: { animation: '2'}
+      },
+      {
+        path: R_ACCOUNT.EXAMPLE,
+        component: ExampleComponent,
+        data: { animation: '2'}
       }
     ]
   },
