@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4715",
     "sebar": "ng serve --host 0.0.0.0 --disableHostCheck --port 4723",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",

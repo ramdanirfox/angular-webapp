@@ -8,7 +8,7 @@ import { SupabaseService } from './shared/services/supabase.service';
 })
 export class AppComponent {
   title = 'exxon';
-
+  showHead = true;
   constructor(private supa: SupabaseService) {
     this.supa.initializeClient();
   }

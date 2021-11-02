@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from '../not-found.component';
 import { AccountComponent } from './account.component';
 import { RT_ACCOUNT } from './account.routes';
+import { AudioloopComponent } from './audioloop/audioloop.component';
 import { ExampleComponent } from './example/example.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
@@ -34,9 +35,9 @@ const routes: Routes = [
         data: { animation: '2'}
       },
       {
-        path: R_ACCOUNT.EXAMPLE,
-        component: ExampleComponent,
-        data: { animation: '2'}
+        path: R_ACCOUNT.LIVE,
+        component: AudioloopComponent,
+        data: { animation: '3'}
       }
     ]
   },
