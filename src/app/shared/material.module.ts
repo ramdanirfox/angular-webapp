@@ -10,7 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 // import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-// import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 // import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { MatMenuModule } from '@angular/material/menu';
 // import { MatSidenavModule } from '@angular/material/sidenav';
@@ -42,7 +42,8 @@ const MODULES = [
   MatInputModule,
   MatButtonModule,
   MatSelectModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSliderModule
 ]
 @NgModule( {
     imports: [

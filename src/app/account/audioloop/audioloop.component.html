@@ -1,3 +1,58 @@
-<button typr="button" (click)="initializeRecord()">
-    Initialize LiveLoopbackRecording
-</button>
+<div [style.display]="showCtl ? 'block' : 'none'">
+    <button type="button" (click)="initializeRecord()">
+        Initialize LiveLoopbackRecording
+    </button>
+    <button type="button" (click)="startRecordVideo(videoInElm)">
+        Initialize Camera
+    </button>
+    Media : <input type="file" (change)="startPlayMedia($event, videoMediaElm, sourceMediaElm)">
+    <!-- <button type="button" (click)="startPlayMedia(videoMediaElm)">
+        Initialize Media
+    </button> -->
+    <div>
+        <mat-form-field *ngFor="let tipe of deviceForm">
+            <mat-label>Pilih {{tipe.value}}</mat-label>
+            <mat-select [(ngModel)]="selectedDevice[tipe.key]">
+                <mat-option *ngFor="let dev of devices[tipe.key]" [value]="dev">
+                    {{dev.text}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <div>Suara Berputar :</div>
+        <div *ngFor="let ctx of audioCtxHolder; let i = index">
+            <div>{{i + 1}}. {{ctx.device ? ctx.device.text : 'Suara ' + i}}</div>
+            <button (click)="audioCtxCtl((ctx.audioContext.state == 'running' ? 'pause' : 'play'), '', ctx, i)" [disabled]="ctx.audioContext.state == 'closed'">
+                {{ctx.audioContext.state == 'running' ? 'Jeda' : 'Putar'}}
+            </button>
+            <button [disabled]="ctx.audioContext.state == 'closed'" (click)="audioCtxCtl('stop', '', ctx, i)">
+                Tutup
+            </button>
+            <div>
+                <mat-slider [min]="0" [max]="300"
+                            [(ngModel)]="ctx.gainValue"
+                            thumbLabel
+                            (input)="audioCtxCtl('volume', $event.value, ctx, i)"
+                            style="width: 200px;" 
+                            tickInterval="1"></mat-slider>
+                            <span>
+                                Volume : {{ctx.gainValue}}
+                            </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div>
+    <button type="button" (click)="showCtl = !showCtl">
+        {{showCtl ? 'Hide' : 'Show'}} Controls
+    </button>
+</div>
+<div>
+    <video #videoInElm>
+    </video>
+    <video #videoMediaElm controls>
+        <source #sourceMediaElm>
+    </video>
+</div>
