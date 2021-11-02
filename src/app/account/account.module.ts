@@ -10,6 +10,7 @@ import { MaterialModule } from '../shared/material.module';
 import { AccountService } from './account.service';
 import { ExampleComponent } from './example/example.component';
 import { StreamComponent } from './stream/stream.component';
+import { AudioloopComponent } from './audioloop/audioloop.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { StreamComponent } from './stream/stream.component';
     SignupComponent,
     AccountComponent,
     ExampleComponent,
-    StreamComponent
+    StreamComponent,
+    AudioloopComponent
   ],
   imports: [
     CommonModule,
