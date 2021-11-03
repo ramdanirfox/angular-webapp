@@ -135,6 +135,7 @@ export class AudioloopComponent implements OnInit {
       ctx.audioElement = value;
       // ctx.audioElement.src = URL.createObjectURL(ctx.streamDestination.stream);
       ctx.audioElement.nativeElement.srcObject = ctx.streamDestination.stream;
+      ctx.audioElement.nativeElement.play();
       console.log('Eoememnyt', this.audioCtxHolder);
     }
     else {
