@@ -11,6 +11,7 @@ import { AccountService } from './account.service';
 import { ExampleComponent } from './example/example.component';
 import { StreamComponent } from './stream/stream.component';
 import { AudioloopComponent } from './audioloop/audioloop.component';
+import { AudioElmComponent } from './audio-elm/audio-elm.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AudioloopComponent } from './audioloop/audioloop.component';
     AccountComponent,
     ExampleComponent,
     StreamComponent,
-    AudioloopComponent
+    AudioloopComponent,
+    AudioElmComponent
   ],
   imports: [
     CommonModule,

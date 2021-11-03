@@ -29,6 +29,7 @@
             <button [disabled]="ctx.audioContext.state == 'closed'" (click)="audioCtxCtl('stop', '', ctx, i)">
                 Tutup
             </button>
+            <app-audio-elm (emitAudioElm)="audioCtxCtl('set_element', $event, ctx, i)"></app-audio-elm>
             <div>
                 <mat-slider [min]="0" [max]="300"
                             [(ngModel)]="ctx.gainValue"

@@ -93,8 +93,10 @@ export class AudioloopComponent implements OnInit {
     .then((stream) => {
       var audioContext = new AudioContext();
       var mediaStreamNode = audioContext.createMediaStreamSource(stream);
+      var mediaStreamDestination = audioContext.createMediaStreamDestination();
       const gainNode = audioContext.createGain();
-      mediaStreamNode.connect(gainNode).connect(audioContext.destination);
+      // mediaStreamNode.connect(gainNode).connect(audioContext.destination);
+      mediaStreamNode.connect(gainNode).connect(mediaStreamDestination);
   
       // This is a temporary workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=934512
       // where the stream is collected too soon by the Garbage Collector
@@ -104,14 +106,16 @@ export class AudioloopComponent implements OnInit {
           device: this.selectedDevice.audioIn,
           audioContext: audioContext,
           gainNode: gainNode,
-          gainValue: 100
+          gainValue: 100,
+          streamDestination: mediaStreamDestination,
+          audioElement: undefined as any
         }
       );
       console.log('AudioCtx', this.audioCtxHolder);
     });
   }
 
-  audioCtxCtl(name: 'pause' | 'play' | 'stop' | 'volume', value: any, ctx: any, i: number) {
+  audioCtxCtl(name: AudioContextEvents, value: any, ctx: any, i: number) {
     if (name == 'pause') {
       ctx.audioContext.suspend().then(() => this.updateUI());
     }
@@ -126,6 +130,12 @@ export class AudioloopComponent implements OnInit {
       // ctx.audioContext.close().then(() => this.updateUI());
       ctx.gainNode.gain.value = value / 100;
       ctx.gainValue = value;
+    }
+    else if (name == 'set_element') {
+      ctx.audioElement = value;
+      // ctx.audioElement.src = URL.createObjectURL(ctx.streamDestination.stream);
+      ctx.audioElement.nativeElement.srcObject = ctx.streamDestination.stream;
+      console.log('Eoememnyt', this.audioCtxHolder);
     }
     else {
 
@@ -152,3 +162,5 @@ export class AudioloopComponent implements OnInit {
   }
 
 }
+
+type AudioContextEvents = 'pause' | 'play' | 'stop' | 'volume' | 'set_element';
