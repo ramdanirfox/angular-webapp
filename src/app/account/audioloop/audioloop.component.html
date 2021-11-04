@@ -1,9 +1,12 @@
 <div [style.display]="showCtl ? 'block' : 'none'">
     <button type="button" (click)="initializeRecord()">
-        Initialize LiveLoopbackRecording
+        Initialize Mikrofon
     </button>
     <button type="button" (click)="startRecordVideo(videoInElm)">
-        Initialize Camera
+        Initialize Kamera
+    </button>
+    <button type="button" (click)="initializeScreenCapture(videoDisplayElm)">
+        Initialize ScreenCap
     </button>
     Media : <input type="file" (change)="startPlayMedia($event, videoMediaElm, sourceMediaElm)">
     <!-- <button type="button" (click)="startPlayMedia(videoMediaElm)">
@@ -52,6 +55,8 @@
 </div>
 <div>
     <video #videoInElm>
+    </video>
+    <video #videoDisplayElm>
     </video>
     <video #videoMediaElm controls>
         <source #sourceMediaElm>

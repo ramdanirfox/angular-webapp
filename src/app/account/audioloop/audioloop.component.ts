@@ -162,6 +162,16 @@ export class AudioloopComponent implements OnInit {
     console.log('LogTest', param);
   }
 
+  initializeScreenCapture(video: any) {
+    (navigator.mediaDevices as any).getDisplayMedia().then((x: any) => {
+      console.log('Got Screen', x);
+      video.srcObject = x;
+      video.play();
+    }).catch((err: any) => {
+      console.log('Err screen', err);
+    });
+  }
+
 }
 
 type AudioContextEvents = 'pause' | 'play' | 'stop' | 'volume' | 'set_element';
