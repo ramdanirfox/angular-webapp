@@ -51,6 +51,32 @@ const routing = async (event, context) => {
                 HEADERS
               } 
         }
+        else if (mode == 'edp_add_product') {
+            const supabase = supa.createClient(supabaseUrl, public_key);
+            const { data, error } = await supabase
+            .from('edp_produk')
+            .insert([
+                {
+                    "nama": param.nama,
+                    "jenis": param.jenis,
+                    "kelas": param.kelas,
+                    "layanan": param.layanan,
+                    "satuan": param.satuan,
+                    "harga": param.harga
+                }
+            ]);
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                  status: "OK",
+                  body: body,
+                  header: HEADERS,
+                  data: data,
+                  error: error,
+                }),
+                HEADERS
+            } 
+        }
     }
 };
 

@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from '../not-found.component';
 import { ConfigComponent } from './config/config.component';
+import { DocviewComponent } from './docview/docview.component';
 import { MainComponent } from './main.component';
 import { RT_MAIN } from './main.routes';
+import { NotaComponent } from './nota/nota.component';
 
 const R_MAIN = new RT_MAIN();
 const routes: Routes = [
@@ -20,6 +22,16 @@ const routes: Routes = [
         path: R_MAIN.CONFIG,
         component: ConfigComponent,
         data: { animation: '0'}
+      },
+      {
+        path: R_MAIN.NOTA,
+        component: NotaComponent,
+        data: { animation: '1'}
+      },
+      {
+        path: R_MAIN.DOCVIEW,
+        component: DocviewComponent,
+        data: { animation: '1'}
       }/* ,
       {
         path: R_ACCOUNT.SIGNUP,

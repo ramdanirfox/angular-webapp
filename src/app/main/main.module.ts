@@ -7,12 +7,16 @@ import { MaterialModule } from '../shared/material.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from '../shared/shared.module';
 import { ConfigComponent } from './config/config.component';
+import { NotaComponent } from './nota/nota.component';
+import { DocviewComponent } from './docview/docview.component';
 
 
 @NgModule({
   declarations: [
     MainComponent,
-    ConfigComponent
+    ConfigComponent,
+    NotaComponent,
+    DocviewComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,5 @@
 <p>config works!</p>
 <app-swimpie *ngIf="db_data" [data]="db_data"></app-swimpie>
 <app-swimtable></app-swimtable>
+<button [routerLink]="['../' + R_MAIN.NOTA]" mat-raised-button>Buka Nota</button>
+<button [routerLink]="['../' + R_MAIN.DOCVIEW]" mat-raised-button>DocViewer</button>

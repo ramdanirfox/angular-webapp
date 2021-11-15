@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LogService } from 'src/app/shared/services/log.service';
+import { RT_MAIN } from '../main.routes';
 import { MainService } from '../main.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { MainService } from '../main.service';
 })
 export class ConfigComponent implements OnInit {
   db_data: any;
+  R_MAIN = new RT_MAIN();
   constructor(
     private mainService: MainService,
     private logService: LogService

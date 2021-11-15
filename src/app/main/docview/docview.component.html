@@ -1,0 +1,9 @@
+<mat-form-field>
+    <mat-label>Url/docId</mat-label>
+    <input matInput [(ngModel)]="urlInput">
+</mat-form-field>
+<button mat-raised-button (click)="processUrl(iframeRef)">{{viewEmbed ? 'Close' : 'Open'}}</button>
+<a href="https://www.scribd.com/document/358552495/Teknik-Informatika" target="_blank"><button mat-raised-button>Search something</button></a>
+<div>
+    <iframe #iframeRef style="width: 100vw; height: 100vh;"></iframe>
+</div>
