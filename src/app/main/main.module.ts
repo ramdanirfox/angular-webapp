@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ConfigComponent } from './config/config.component';
 import { NotaComponent } from './nota/nota.component';
 import { DocviewComponent } from './docview/docview.component';
+import { FileChunkComponent } from './file-chunk/file-chunk.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { DocviewComponent } from './docview/docview.component';
     MainComponent,
     ConfigComponent,
     NotaComponent,
-    DocviewComponent
+    DocviewComponent,
+    FileChunkComponent
   ],
   imports: [
     CommonModule,

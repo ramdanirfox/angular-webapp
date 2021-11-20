@@ -1,0 +1,15 @@
+<div>
+    File chunk demo.
+</div>
+<div>
+    Unggah berkas berukuran besar (> 2MB) lalu chunk jadi per 200kb
+</div>
+<div>
+    <!-- <mat-form-field> -->
+        <input type="file" (change)="initializeUpload($event, audioElm)">
+    <!-- </mat-form-field> -->
+</div>
+<div>
+    <audio controls #audioElm>
+    </audio>
+</div>

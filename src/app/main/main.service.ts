@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { GeisaRequestEvent } from '../shared/model/service.model';
 import { copy } from '../shared/util/common-helper';
 const SERVER = environment.apiBaseUrl;
+const LOKAL = 'http://127.0.0.1:3000'
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,28 @@ const SERVER = environment.apiBaseUrl;
 export class MainService {
 
   constructor(private httpClient: HttpClient) { }
+
+  genericLocalGet(lokasi: string, params: any) {
+    const url = LOKAL + lokasi;
+    return this.httpClient.get(url);
+  }
+
+  genericLocalPost(lokasi: string, params: any) {
+    const url = LOKAL + lokasi;
+    const header = new HttpHeaders({'Content-Type': 'application/json'});
+    header.append('Content-Type', 'application/json');
+    return this.httpClient.post(url, JSON.stringify(params), { headers: header });
+  }
+
+  genericLocalPostPgEvt<V = {[keyof: string]: any }>(lokasi: string, param: any): Observable<GeisaRequestEvent<V>> {
+    const url = LOKAL + lokasi;
+    const body = JSON.stringify(param);
+    return this.httpClient.post(url, body, {observe: 'events'}).pipe(map(x => {
+      console.log('xnya', x);
+      const modRes: GeisaRequestEvent<V> = this.resultEventModifier<V>(x);
+      return modRes;
+    }))
+  }
 
   genericFn(param: any) {
     const url = SERVER + '/.netlify/functions/awsabroad';

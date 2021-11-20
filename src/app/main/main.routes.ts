@@ -3,4 +3,5 @@ export class RT_MAIN {
     NOTA = 'nota';
     HOME = 'home';
     DOCVIEW = 'doc_viewer';
+    FILE_CHUNK = 'file_chunk';
 }
