@@ -22,7 +22,7 @@ export class GunService {
     console.log("[GUN] peerId is " + this.peerId)
     // localStorage.clear();
     let opt = {
-      peers: [this.peerId],
+      peers: [this.peerId, "https://gun-manhattan.herokuapp.com/gun"],
       store: undefined as any,
       localStorage: false
     };
