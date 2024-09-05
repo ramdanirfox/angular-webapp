@@ -7,6 +7,7 @@ import { AudioloopComponent } from './audioloop/audioloop.component';
 import { ExampleComponent } from './example/example.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { NoteComponent } from './note/note.component';
 
 const R_ACCOUNT = new RT_ACCOUNT();
 const routes: Routes = [
@@ -38,6 +39,11 @@ const routes: Routes = [
         path: R_ACCOUNT.LIVE,
         component: AudioloopComponent,
         data: { animation: '3'}
+      },
+      {
+        path: R_ACCOUNT.NOTE,
+        component: NoteComponent,
+        data: { animation: '4'}
       }
     ]
   },

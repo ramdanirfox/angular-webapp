@@ -12,6 +12,7 @@ import { ExampleComponent } from './example/example.component';
 import { StreamComponent } from './stream/stream.component';
 import { AudioloopComponent } from './audioloop/audioloop.component';
 import { AudioElmComponent } from './audio-elm/audio-elm.component';
+import { NoteComponent } from './note/note.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AudioElmComponent } from './audio-elm/audio-elm.component';
     ExampleComponent,
     StreamComponent,
     AudioloopComponent,
-    AudioElmComponent
+    AudioElmComponent,
+    NoteComponent
   ],
   imports: [
     CommonModule,

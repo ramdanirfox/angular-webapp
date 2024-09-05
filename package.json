@@ -31,7 +31,8 @@
     "pg": "^8.7.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "gun": "https://github.com/amark/gun.git#master"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.1",

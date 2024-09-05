@@ -3,4 +3,5 @@ export class RT_ACCOUNT {
     SIGNUP = 'sigunp';
     EXAMPLE = 'example';
     LIVE = 'live';
+    NOTE = 'note';
 }

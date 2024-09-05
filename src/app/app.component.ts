@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SupabaseService } from './shared/services/supabase.service';
+import { GunService } from './shared/services/gun.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { SupabaseService } from './shared/services/supabase.service';
 export class AppComponent {
   title = 'exxon';
   showHead = true;
-  constructor(private supa: SupabaseService) {
+  constructor(private supa: SupabaseService, private gun: GunService) {
     this.supa.initializeClient();
+    this.gun.initialize();
   }
 }
