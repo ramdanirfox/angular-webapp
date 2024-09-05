@@ -27,7 +27,7 @@ export class GunService {
       localStorage: false
     };
     opt.store = RindexedDB(opt);
-    this.gun = Gun(this.peerId);
+    this.gun = Gun(opt);
   }
 
   initialize() {
