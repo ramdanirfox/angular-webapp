@@ -24,8 +24,9 @@ export class GunService {
 
   initialize(customPeer?: string[]) {
     // console.log("[GUN] ignored. peer is " + this.peerId, this.gun);
-    const listPeers = customPeer && customPeer.length && customPeer || [this.peerId, "https://gun-manhattan.herokuapp.com/gun"];
-    console.log("[GUN] peerId is " + listPeers)
+    console.log("peer params ", customPeer);
+    const listPeers = customPeer && customPeer.length && customPeer[0] !== "" && customPeer || [this.peerId, "https://gun-manhattan.herokuapp.com/gun"];
+    console.log("[GUN] peerId is ", listPeers)
     // localStorage.clear();
     let opt = {
       peers: listPeers,

@@ -23,6 +23,7 @@ export class NoteComponent implements OnInit {
 
   fnInit() {
     let custPeer = this.peerServersStr.split(",");
+    console.log("peerS", custPeer, this.peerServersStr)
     this.gun.initialize(custPeer);
     this.gunNote = this.gun.gunInstance()?.get("notes");
     this.initializeNote();
