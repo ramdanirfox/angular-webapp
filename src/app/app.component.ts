@@ -12,6 +12,6 @@ export class AppComponent {
   showHead = true;
   constructor(private supa: SupabaseService, private gun: GunService) {
     this.supa.initializeClient();
-    this.gun.initialize();
+    // this.gun.initialize();
   }
 }

@@ -1,3 +1,13 @@
+<div>
+    Update Count : {{updateCount}}
+</div>
+<div>
+    <mat-form-field>
+        <textarea matInput [(ngModel)]="peerServersStr" placeholder="WS Servers">
+        </textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="fnInit()">Init Note</button>
+</div>
 <div class="note-container">
     <div>
         <mat-form-field>
@@ -11,14 +21,14 @@
         </mat-form-field>
     </div>
     <div>
-        <button mat-button color="warn">Delete</button>
-        <button mat-button color="primary" (click)="fnSave()">Save</button>
-        <button mat-button color="accent">Update</button>
+        <button mat-button color="warn" (click)="fnDelete()">Delete</button>
+        <button mat-button color="primary" (click)="fnSave()">Save/Update</button>
+        <!-- <button mat-button color="accent">Update</button> -->
     </div>
 </div>
 <div class="note-list">
     <div>Note List</div>
     <div *ngFor="let note of notes">
-        <button mat-raised-button color="primary" class="note-btn">{{note.title}}</button>
+        <button mat-raised-button color="primary" class="note-btn" (click)="fnSelectNote(note)">{{note.title}}</button>
     </div>
 </div>

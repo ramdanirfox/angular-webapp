@@ -16,24 +16,24 @@ declare var RindexedDB: any;
 })
 export class GunService {
   readonly peerId = location.origin + '/gun';
-  private gun: IGunInstance;
+  private gun: IGunInstance | undefined;
 
   constructor() { 
-    console.log("[GUN] peerId is " + this.peerId)
+   
+  }
+
+  initialize(customPeer?: string[]) {
+    // console.log("[GUN] ignored. peer is " + this.peerId, this.gun);
+    const listPeers = customPeer || [this.peerId, "https://gun-manhattan.herokuapp.com/gun"];
+    console.log("[GUN] peerId is " + listPeers)
     // localStorage.clear();
     let opt = {
-      peers: [this.peerId, "https://gun-manhattan.herokuapp.com/gun"],
+      peers: listPeers,
       store: undefined as any,
       localStorage: false
     };
     opt.store = RindexedDB(opt);
     this.gun = Gun(opt);
-  }
-
-  initialize() {
-    console.log("[GUN] ignored. peer is " + this.peerId, this.gun);
-    
-    // this.gun = Gun(this.peerId);
   }
 
   gunInstance() {
