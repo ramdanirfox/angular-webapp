@@ -41,6 +41,8 @@
             ],
             "scripts": [
               "./node_modules/gun/gun.min.js",
+              "./node_modules/gun/sea.js",
+              "./node_modules/gun/axe.js",
               "./node_modules/gun/lib/radix.js",
               "./node_modules/gun/lib/radisk.js",
               "./node_modules/gun/lib/store.js",
